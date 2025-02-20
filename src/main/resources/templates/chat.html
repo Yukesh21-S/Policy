@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with Gemini AI</title>
+</head>
+<body>
+<h1>Chat with Gemini AI</h1>
+
+<!-- Form to submit messages -->
+<form action="#" th:action="@{/chat}" method="post">
+    <label for="message">Enter your message:</label>
+    <textarea name="message" id="message" placeholder="Type your message..." required></textarea>
+    <button type="submit">Send</button>
+</form>
+
+<div>
+    <h2>Response:</h2>
+    <p th:text="${response}">Waiting for response...</p>
+</div>
+
+<footer>
+    <p>Powered by Gemini AI Chat</p>
+</footer>
+</body>
+</html>

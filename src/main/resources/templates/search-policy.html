@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Policy</title>
+</head>
+<body>
+<form action="/customer/search-policy" method="get">
+    <input type="text" name="keyword" placeholder="Search policies" />
+    <button type="submit">Search</button>
+</form>
+
+<div th:if="${policies}">
+    <div th:each="policy : ${policies}">
+        <h3 th:text="${policy.name}"></h3>
+        <p th:text="${policy.description}"></p>
+    </div>
+</div>
+</body>
+</html>

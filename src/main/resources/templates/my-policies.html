@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Policies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .no-policies {
+            background: #f1f5f9;
+            padding: 3rem;
+            text-align: center;
+            border-radius: 1rem;
+            color: #64748b;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #7c3aed;
+            color: white;
+            font-weight: 500;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover td {
+            background: #f8fafc;
+        }
+
+        .action-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .view-btn {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #6d28d9;
+        }
+
+        .claim-btn {
+            background: #22c55e;
+            color: white;
+        }
+
+        .claim-btn:hover {
+            background: #16a34a;
+        }
+
+        .status-btn {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .status-btn:hover {
+            background: #0284c7;
+        }
+
+        .date-cell {
+            white-space: nowrap;
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+
+            body {
+                padding: 1rem;
+            }
+
+            .action-btn {
+                display: block;
+                margin-bottom: 0.5rem;
+                text-align: center;
+            }
+        }
+         .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #1d4ed8;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #1e40af;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>My Applied Policies</h1>
+    </div>
+
+
+    <div th:if="${policies.isEmpty()}" class="no-policies">
+        <p>No policies applied yet.</p>
+    </div>
+
+    <div th:if="${!policies.isEmpty()}" class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Policy Name</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="policy : ${policies}">
+                <td th:text="${policy.name}"></td>
+                <td th:text="${policy.description}"></td>
+                <td class="date-cell" th:text="${policy.startDate}"></td>
+                <td>
+                    <a th:href="@{/customer/apply-policy/{id}(id=${policy.policyId})}" class="action-btn view-btn">View Details</a>
+                    <!-- If claim is not raised, show the "File Claim" button -->
+                    <a th:href="@{/claim/claimPolicy/{policyId}(policyId=${policy.policyId})}"
+                       class="action-btn claim-btn"
+                       th:if="${!policy.claimRaised}">File Claim</a>
+
+                    <!-- If claim is already raised, show the disabled version of the button -->
+                    <span class="action-btn claim-btn disabled"
+                          th:if="${policy.claimRaised}"
+                          style="background: #94a3b8; cursor: not-allowed;">Claim Raised</span>
+                    <a th:href="@{/customer/claimed-customers/{claimId}(claimId=${policy.policyId})}" class="action-btn status-btn">View Status</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="back-to-home" style="text-align: center;">
+        <a th:href="@{/customer/home}" class="back-btn">Back to Home</a>
+    </div>
+
+</div>
+</body>
+</html>

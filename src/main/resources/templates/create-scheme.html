@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Scheme</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #a78bfa;
+            --background: #f5f3ff;
+            --text-color: #1f2937;
+            --border-color: #e9d5ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--background) 0%, #fff 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(139 92 246 / 0.1),
+            0 10px 15px -3px rgb(139 92 246 / 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-container:hover {
+            box-shadow: 0 20px 25px -5px rgb(139 92 246 / 0.1),
+            0 8px 10px -6px rgb(139 92 246 / 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: white;
+            color: var(--text-color);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:hover,
+        textarea:hover {
+            border-color: var(--primary-light);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        }
+
+        .error-message {
+            background-color: #fef2f2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #ef4444;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: #f3e8ff;
+            color: var(--primary-color);
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e9d5ff;
+            transform: translateY(-2px);
+        }
+
+        .form-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Create New Scheme</h1>
+        <p class="subtitle">Create a new insurance scheme by filling out the details below</p>
+    </div>
+
+
+
+    <form th:action="@{/admin/schemes/save}" th:object="${scheme}" method="post">
+        <input type="hidden" th:field="*{schemeId}">
+        <div class="form-group">
+            <div class="form-icon">
+                <i class="fas fa-tag"></i>
+                <span>Give your scheme a unique name</span>
+            </div>
+            <label for="name">Scheme Name</label>
+            <input
+                    type="text"
+                    id="name"
+                    th:field="*{name}"
+                    placeholder="Enter scheme name"
+                    required
+            />
+        </div>
+
+        <div class="form-group">
+            <div class="form-icon">
+                <i class="fas fa-align-left"></i>
+                <span>Provide a detailed description</span>
+            </div>
+            <label for="description">Description</label>
+            <textarea
+                    id="description"
+                    th:field="*{description}"
+                    placeholder="Enter scheme description"
+                    required
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="form-icon">
+                <i class="fas fa-check-circle"></i>
+                <span>Define who can apply</span>
+            </div>
+            <label for="eligibilityCriteria">Eligibility Criteria</label>
+            <textarea
+                    id="eligibilityCriteria"
+                    th:field="*{eligibility}"
+                    placeholder="Define eligibility criteria"
+                    required
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="form-icon">
+                <i class="fas fa-gift"></i>
+                <span>List the benefits provided</span>
+            </div>
+            <label for="benefits">Benefits</label>
+            <textarea
+                    id="benefits"
+                    th:field="*{benefits}"
+                    placeholder="List the scheme benefits"
+                    required
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="form-icon">
+                <i class="fas fa-file-contract"></i>
+                <span>Specify terms and conditions</span>
+            </div>
+            <label for="termsAndConditions">Terms and Conditions</label>
+            <textarea
+                    id="termsAndConditions"
+                    th:field="*{termsAndConditions}"
+                    placeholder="Enter terms and conditions"
+                    required
+            ></textarea>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i>
+                Save Scheme
+            </button>
+            <a href="/admin/admin-home" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Back to Policies
+            </a>
+        </div>
+    </form>
+</div>
+</div>
+</body>
+</html>

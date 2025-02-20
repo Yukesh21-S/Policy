@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyTrust - Your Policy Management Partner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --hover-gradient: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9) !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: var(--primary-gradient);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 120px 20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: #4b5563;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--hover-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-outline-primary {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+
+        .dropdown-menu {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dropdown-item {
+            padding: 0.7rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+
+        .footer-content {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 5rem 2rem;
+            position: relative;
+        }
+
+        .footer-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .footer-content h4 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .footer-content a {
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-content a:hover {
+            color: #6366f1 !important;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            background: #111827;
+            padding: 1.5rem 0;
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .footer-content > div {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar .btn {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            .navbar .dropdown {
+                width: 100%;
+            }
+
+            .dropdown-toggle {
+                width: 100%;
+                text-align: left;
+            }
+        }
+          .product-card {
+            text-align: center;
+            padding: 20px 10px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+        }
+
+        .icon-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .discount-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .premium-badge {
+            background: #ffebee;
+            color: #c62828;
+            padding: 5px 15px;
+            border-radius: 20px<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
+    <div class="col">
+        <div class="product-card">
+            <div class="icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path d="M 20 60 Q 50 30 80 60" stroke="#4169E1" fill="none" stroke-width="8"/>
+                    <line x1="50" y1="60" x2="50" y2="85" stroke="#4169E1" stroke-width="8"/>
+                    <path d="M 20 60 Q 50 70 80 60" fill="#4169E1"/>
+                </svg>
+            </div>
+            <h3 class="product-title">Term Life Insurance</h3>
+            <span class="discount-badge">Upto 15% Discount</span>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="product-card">
+            <div class="icon-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <path d="M50 80 C25 60 10 40 25 25 C35 15 45 25 50 35 C55 25 65 15 75 25 C90 40 75 60 50 80Z" fill="#FF4444"/>
+                    <path d="M20 50 L35 50 L40 35 L45 65 L50 50 L80 50" stroke="white" fill="none" stroke-width="4"/>
+                </svg>
+            </div>
+            <h3 class="product-title">Health Insurance</h3>
+            <span class="discount-badge">FREE Home Visit</span>
+        </div>
+    </div>
+    <!-- Repeat for other product cards -->
+</div>;
+            font-size: 12px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .product-title {
+            font-size: 14px;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .features-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            color: #666;
+            margin-right: 30px;
+        }
+
+        .feature-item i {
+            margin-right: 8px;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">PolicyTrust</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/view-schemes}"><i class="fas fa-file-alt"></i> Schemes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/customer/view-policy}"><i class="fas fa-file-alt"></i> Policies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+<!--                    <a th:href="@{/login}" class="btn btn-primary me-2"><i class="fas fa-sign-in-alt"></i> Login</a>-->
+<!--                    <a href="registration.html" class="btn btn-outline-primary me-3"><i class="fas fa-user-plus"></i> Sign Up</a>-->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span th:text="${userName}">Profile</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/customer/my-policies"><i class="fas fa-file-contract"></i> My Policies</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/find}"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/view-policy}"><i class="fas fa-eye"></i> View Policy</a></li>
+                          <!--  <li><a class="dropdown-item" th:href="@{/customer/view-schemes}"><i class="fas fa-eye"></i> View Schemes</a></li>-->
+                            <li><a class="dropdown-item" th:href="@{/customer/gethelp}" ><i class="fas fa-edit"></i> Get Help</a></li>
+                            <li><a class="dropdown-item" th:href="@{/customer/delete-confirmation}"><i class="fas fa-trash"></i> Delete Account</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li  sec:authorize="isAuthenticated()"><a class="dropdown-item" th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="container text-center">
+        <h1>Welcome to PolicyTrust,<span th:text="${userName}"></span></h1>
+        <p>Your trusted partner for comprehensive policy management solutions.</p>
+        <a href="#" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Get Started</a>
+    </div>
+</section>
+<div class="container mt-5">
+
+    <div class="features-section mb-4">
+        <div class="d-flex flex-wrap">
+            <div class="feature-item">
+                <i class="fas fa-calculator"></i>
+                <span>50 insurers offering lowest prices</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-bolt"></i>
+                <span>Quick, easy & hassle free</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M 20 60 Q 50 30 80 60" stroke="#4169E1" fill="none" stroke-width="8"/>
+                        <line x1="50" y1="60" x2="50" y2="85" stroke="#4169E1" stroke-width="8"/>
+                        <path d="M 20 60 Q 50 70 80 60" fill="#4169E1"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Term Life Insurance</h3>
+                <span class="discount-badge">Upto 15% Discount</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <img src="/static/car-insurance.jpg" alt="Custom Product" class="img-fluid">
+
+                </div>
+                <h3 class="product-title">Your Product Title</h3>
+                <span class="discount-badge">Upto 15% Discount</span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="30" fill="#FFD700"/>
+                        <path d="M60 30 L80 30 L80 20 L95 35 L80 50 L80 40 L60 40Z" fill="#228B22"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Investment Plans</h3>
+                <span class="discount-badge">In-Built Life Cover</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M15 50 L25 35 L75 35 L85 50 L85 70 L15 70 Z" fill="#1E90FF"/>
+                        <circle cx="30" cy="70" r="10" fill="#333"/>
+                        <circle cx="70" cy="70" r="10" fill="#333"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Car Insurance</h3>
+                <span class="discount-badge">Upto 91% Discount</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M30 50 L70 50 L80 60 L60 70 L40 70 L20 60 Z" fill="#32CD32"/>
+                        <circle cx="30" cy="70" r="10" fill="#333"/>
+                        <circle cx="70" cy="70" r="10" fill="#333"/>
+                        <path d="M70 50 L80 30" stroke="#32CD32" stroke-width="6"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">2 Wheeler Insurance</h3>
+                <span class="discount-badge">Upto 25% Discount</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="40" cy="30" r="10" fill="#4169E1"/>
+                        <path d="M40 40 L40 70 M30 50 L50 50" stroke="#4169E1" stroke-width="6"/>
+                        <circle cx="60" cy="40" r="8" fill="#4169E1"/>
+                        <path d="M60 48 L60 70 M52 55 L68 55" stroke="#4169E1" stroke-width="4"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Family Health Insurance</h3>
+                <span class="discount-badge">Upto 25% Discount</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M30 70 C30 40 70 40 70 70" fill="none" stroke="#4169E1" stroke-width="8"/>
+                        <circle cx="50" cy="30" r="10" fill="#FF69B4"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Term Insurance (Women)</h3>
+                <span class="discount-badge">Upto 20% Cheaper</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="30" fill="#4169E1" opacity="0.2"/>
+                        <path d="M35 50 L45 60 L65 40" stroke="#4169E1" stroke-width="8" fill="none"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Term Plans with Return of Premium</h3>
+                <span class="discount-badge">Money Back</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="30" fill="#FFD700"/>
+                        <text x="50" y="60" text-anchor="middle" fill="#000" font-size="40">₹</text>
+                    </svg>
+                </div>
+                <h3 class="product-title">Guaranteed Return Plans</h3>
+                <span class="discount-badge">Safe Returns</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="35" cy="35" r="8" fill="#FF69B4"/>
+                        <circle cx="65" cy="35" r="8" fill="#4169E1"/>
+                        <path d="M20 60 Q50 80 80 60" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Child Savings Plans</h3>
+                <span class="premium-badge">Premium Waiver</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M30 70 C30 40 70 40 70 70" fill="none" stroke="#4169E1" stroke-width="8"/>
+                        <circle cx="50" cy="30" r="15" fill="#FFD700"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Retirement Plans</h3>
+                <span class="discount-badge">Secure Future</span>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="product-card">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <circle cx="30" cy="40" r="10" fill="#4169E1"/>
+                        <circle cx="50" cy="40" r="10" fill="#4169E1"/>
+                        <circle cx="70" cy="40" r="10" fill="#4169E1"/>
+                        <path d="M20 60 Q50 80 80 60" fill="#FF4444"/>
+                    </svg>
+                </div>
+                <h3 class="product-title">Employee Group Health Insurance</h3>
+                <span class="discount-badge">Upto 65% Discount</span>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<footer>
+    <div class="footer-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h4>PolicyTrust</h4>
+                    <p>Your trusted partner for policy management solutions.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h4>Quick Links</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#" class="text-light"><i class="fas fa-chevron-right"></i> About</a></li>
+                        <li><a href="#" class="text-light"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="#" class="text-light"><i class="fas fa-chevron-right"></i> Policies</a></li>
+                        <li><a href="#" class="text-light"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contact Us</h4>
+                    <ul class="list-unstyled">
+                        <li class="text-light mb-2"><i class="fas fa-envelope"></i> support@policytrust.com</li>
+                        <li class="text-light"><i class="fas fa-phone"></i> +123 456 7890</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="mb-0">&copy; 2025 PolicyTrust. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

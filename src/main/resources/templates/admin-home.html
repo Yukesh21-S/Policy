@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyTrust - Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 100%);
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 20px 25px -5px rgba(124, 58, 237, 0.1), 0 10px 10px -5px rgba(124, 58, 237, 0.04);
+        }
+        .icon-container {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+            transition: transform 0.3s ease;
+        }
+        .card:hover .icon-container {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+        }
+        .button-primary {
+            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+            transition: all 0.3s ease;
+        }
+        .button-primary:hover {
+            background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+        .logout-button {
+            background: linear-gradient(135deg,  #6d28d9 0%, #7c3aed 100%);
+            transition: all 0.3s ease;
+        }
+        .logout-button:hover {
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+        }
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%237c3aed' fill-opacity='0.2' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 relative overflow-x-hidden">
+<header class="gradient-bg text-white py-6 px-4 shadow-lg">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            <h1 class="text-2xl font-bold">PolicyTrust</h1>
+        </div>
+        <div class="flex items-center space-x-6">
+            <div class="text-sm">Insurance Management System</div>
+            <button
+                    th:onclick="|window.location.href='@{/logout}'|"
+                    class="logout-button py-2 px-4 rounded-lg text-white font-medium">
+                Logout
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-12">
+    <div class="text-center mb-16 animate_animated animate_fadeIn">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Welcome to PolicyTrust Dashboard</h1>
+        <p class="text-gray-600 text-lg">Streamline your insurance management with our powerful tools</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate_animated animate_fadeInUp">
+        <div class="card rounded-xl p-6">
+            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="text-3xl text-white">📄</span>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800 text-center mb-4">Create Policy</h2>
+            <button
+                    th:onclick="|window.location.href='@{/admin/policies/create}'|"
+                    class="button-primary w-full py-3 px-6 rounded-lg text-white font-medium">
+                Create New Policy
+            </button>
+        </div>
+
+        <div class="card rounded-xl p-6">
+            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="text-3xl text-white">📋</span>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800 text-center mb-4">Create Scheme</h2>
+            <button
+                    th:onclick="|window.location.href='@{/admin/schemes/new}'|"
+                    class="button-primary w-full py-3 px-6 rounded-lg text-white font-medium">
+                Create New Scheme
+            </button>
+        </div>
+
+        <div class="card rounded-xl p-6">
+            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="text-3xl text-white">🔑</span>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800 text-center mb-4">Available Schemes</h2>
+            <button
+                    th:onclick="|window.location.href='@{/admin/schemes/list-schemes}'|"
+                    class="button-primary w-full py-3 px-6 rounded-lg text-white font-medium">
+                View Schemes
+            </button>
+        </div>
+
+        <div class="card rounded-xl p-6">
+            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="text-3xl text-white">📊</span>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800 text-center mb-4">Policies List</h2>
+            <button
+                    th:onclick="|window.location.href='@{/admin/policies}'|"
+                    class="button-primary w-full py-3 px-6 rounded-lg text-white font-medium">
+                View Policies
+            </button>
+        </div>
+
+        <div class="card rounded-xl p-6">
+            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="text-3xl text-white">📝</span>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800 text-center mb-4">Claim Requests</h2>
+            <button
+                    th:onclick="|window.location.href='@{/admin/claims/pending}'|"
+                    class="button-primary w-full py-3 px-6 rounded-lg text-white font-medium">
+                View Claims
+            </button>
+        </div>
+    </div>
+</main>
+
+<div class="waves"></div>
+
+<footer class="gradient-bg text-white py-4 px-4 mt-20">
+    <div class="max-w-7xl mx-auto text-center">
+        <p>&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span> PolicyTrust. All Rights Reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

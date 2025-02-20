@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Schemes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .table-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #4f46e5;
+            color: #fff;
+        }
+
+        tr:hover td {
+            background-color: #f1f5f9;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .status-active {
+            background-color: #16a34a;
+        }
+
+        .status-inactive {
+            background-color: #e11d48;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            background-color: #2563eb;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .create-btn {
+            display: block;
+            text-align: center;
+            margin: 1rem auto;
+            padding: 0.75rem 1.5rem;
+            background-color: #7c3aed;
+            color: #fff;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-btn:hover {
+            background-color: #6d28d9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>List of Schemes</h1>
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Eligibility</th>
+                <th>Benefits</th>
+                <th>Terms</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="scheme : ${schemes}">
+                <td th:text="${scheme.name}"></td>
+                <td th:text="${scheme.description}"></td><td>
+                <td>
+                    <span th:class="${scheme.status != null && scheme.status.equals('ACTIVE') ? 'status-badge status-active' : 'status-badge status-inactive'}"
+                          th:text="${scheme.status != null ? scheme.status : 'INACTIVE'}"></span>
+                </td>
+
+                <td th:text="${scheme.eligibility}"></td>
+                <td th:text="${scheme.benefits}"></td>
+                <td th:text="${scheme.termsAndConditions}"></td>
+                <td><form th:action="@{/admin/schemes/{id}/deactivate(id=${scheme.schemeId})}" method="post"
+                          th:if="${scheme.status != null and scheme.status.equals('ACTIVE')}">
+                    <button type="submit" class="action-btn">Deactivate</button>
+                </form>
+                    <form th:action="@{/admin/schemes/{id}/activate(id=${scheme.schemeId})}" method="post"
+                          th:if="${scheme.status != null and scheme.status.equals('INACTIVE')}">
+                        <button type="submit" class="action-btn">Activate</button>
+                    </form>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="/admin/schemes/new" class="create-btn">Create New Scheme</a>
+</div>
+</body>
+</html>

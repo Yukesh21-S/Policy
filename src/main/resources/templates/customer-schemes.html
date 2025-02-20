@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View All Schemes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .scheme-card {
+      transition: all 0.3s ease;
+    }
+    .scheme-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 15px rgba(91, 33, 182, 0.2);
+    }
+    .view-details-btn {
+      transition: all 0.3s ease;
+    }
+    .view-details-btn:hover {
+      transform: translateY(-3px);
+      background-color: #4c1d95;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .view-details-btn:active {
+      transform: translateY(1px);
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl font-bold text-center mb-8 text-[#5b21b6]">View All Schemes</h1>
+
+  <div class="space-y-6">
+    <!-- Loop through all schemes using Thymeleaf -->
+    <div th:each="scheme : ${schemes}" class="bg-white shadow-lg rounded-lg p-6 scheme-card">
+      <h2 th:text="${scheme.name}" class="text-2xl font-semibold mb-4"></h2>
+      <p th:text="${scheme.description}" class="text-gray-600 mb-4"></p>
+      <a th:href="@{/customer/customer-schemes/{id}(id=${scheme.schemeId})}" class="view-details-btn bg-[#5b21b6] text-white px-4 py-2 rounded-md">
+        View Details
+      </a>
+    </div>
+
+    <!-- Another example of a scheme card -->
+    <div class="bg-white shadow-lg rounded-lg p-6 scheme-card mt-6">
+      <h2 class="text-2xl font-semibold mb-4">Scheme 2</h2>
+      <p class="text-gray-600 mb-4">Description of Scheme 2 goes here...</p>
+      <button class="view-details-btn bg-[#5b21b6] text-white px-4 py-2 rounded-md">
+        View Details
+      </button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheme Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .scheme-card {
+            transition: all 0.3s ease;
+        }
+        .scheme-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px rgba(91, 33, 182, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center mb-8 text-[#5b21b6]">Scheme Details</h1>
+
+    <div class="bg-white shadow-lg rounded-lg p-6 scheme-card">
+        <h2 class="text-3xl font-semibold mb-4">Scheme: <span th:text="${scheme.name}"></span></h2>
+
+        <div class="mb-4">
+            <strong class="text-lg">Description:</strong>
+            <p th:text="${scheme.description}" class="text-gray-600"></p>
+        </div>
+
+        <div class="mb-4">
+            <strong class="text-lg">Eligibility Criteria:</strong>
+            <p th:text="${scheme.eligibility}" class="text-gray-600"></p>
+        </div>
+
+        <div class="mb-4">
+            <strong class="text-lg">Benefits:</strong>
+            <p th:text="${scheme.benefits}" class="text-gray-600"></p>
+        </div>
+
+        <div class="mb-4">
+            <strong class="text-lg">Terms & Conditions:</strong>
+            <p th:text="${scheme.termsAndConditions}" class="text-gray-600"></p>
+        </div>
+
+        <div class="mt-6">
+            <a href="/customer/view-schemes" class="bg-[#5b21b6] text-white px-4 py-2 rounded-md">
+                Back to Schemes List
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

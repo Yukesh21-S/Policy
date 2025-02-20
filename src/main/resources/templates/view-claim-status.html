@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Claim Status</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .btn-primary {
+            background-color: #5b21b6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #4c1d95;
+        }
+        .table-header {
+            background-color: #5b21b6;
+            color: white;
+        }
+        .error-message {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin: 1rem auto;
+            max-width: 600px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+<nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+        <h1 class="text-2xl font-bold text-gray-800">Claim Status for Policy: <span th:text="${policyName}" class="text-purple-800"></span></h1>
+    </div>
+</nav>
+
+<main class="max-w-4xl mx-auto mt-6 px-4">
+    <div th:if="${claimStatus != null}" class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="min-w-full">
+            <thead class="table-header">
+            <tr>
+                <th class="px-6 py-3 text-left">Claim Status</th>
+                <th class="px-6 py-3 text-left">Admin Action Message</th>
+                <th class="px-6 py-3 text-left">Claim Reason</th>
+                <th class="px-6 py-3 text-left">Claim Date</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white">
+            <tr>
+                <td class="px-6 py-4 border-b" th:text="${claimStatus}"></td>
+                <td class="px-6 py-4 border-b" th:text="${adminActionMessage}"></td>
+                <td class="px-6 py-4 border-b" th:text="${claimReason}"></td>
+                <td class="px-6 py-4 border-b" th:text="${claimDate}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Error message when claimStatus is null -->
+    <div th:if="${claimStatus == null}" class="error-message">
+        <p>Sorry, no claim status information is available at this time. Please try again later or contact customer support for assistance.</p>
+    </div>
+</main>
+
+<footer class="mt-8 text-center pb-8">
+    <a href="/customer/home" class="btn-primary">Back to Dashboard</a>
+</footer>
+</body>
+</html>
